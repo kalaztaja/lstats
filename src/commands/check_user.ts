@@ -1,5 +1,14 @@
-export const check_user = function (username: string) {
-    console.log("check");
+import { getConnection } from "typeorm";
+import { User } from "../entity/User";
 
-    return null;
+export const check_user = async function (discordNick: string) {
+    const user = await getConnection()
+        .createQueryBuilder()
+        .select("user")
+        .from(User, "user")
+        .where("user.discordId = :discordId", { discordNick: discordNick })
+        .getOne();
+
+
+    return user;
 }

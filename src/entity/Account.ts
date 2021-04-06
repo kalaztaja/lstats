@@ -25,19 +25,18 @@ export class Account {
     lastUpdated: string;
 
     @Column()
-    soloq_wins: number;
+    soloq_wins: string;
 
     @Column()
-    soloq_losses: number;
+    soloq_losses: string;
 
     @Column()
-    soloq_lp: number;
+    soloq_lp: string;
 
     @Column()
     soloq_tier: string;
 
-
-
-
+    @Column()
+    soloq_rank_from_challenger: number;
 
 }

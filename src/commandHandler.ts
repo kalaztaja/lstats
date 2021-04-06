@@ -17,7 +17,7 @@ export const handleCommand = async function (message: Message) {
     if (args.length === 1) {
         //!register summonerName
         if (commandArg === "register") {
-            command.add_account(args[0]);
+            responseArray.push(await command.add_account(args[0], message));
         }
         //!block
         if (commandArg === "block") {
@@ -26,6 +26,14 @@ export const handleCommand = async function (message: Message) {
 
         if (commandArg === "get" && args[0] === "weekreport") {
             command.get_newest_weekreport();
+        }
+        if (commandArg === "check") {
+            if (args[0] === "accounts") {
+                console.log("there ")
+                responseArray.push(await command.get_all_accounts());
+            } else {
+                command.check_user(args[1]);
+            }
         }
     } else if (args.length === 2) {
         //!remove block/account
@@ -38,13 +46,7 @@ export const handleCommand = async function (message: Message) {
         }
 
         //!check
-        if (commandArg === "check") {
-            if (args[0] === "accounts") {
-                command.get_all_accounts();
-            } else {
-                command.check_user(args[1]);
-            }
-        }
+
 
     } else if (args.length === 0) {
         if (commandArg === "help") {

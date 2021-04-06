@@ -19,7 +19,7 @@ export class User {
     discordNick: string;
 
     @Column()
-    discordId: number;
+    discordId: string;
 
     @ManyToOne(() => Team, team => team.users)
     team: Team;
