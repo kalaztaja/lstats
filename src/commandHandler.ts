@@ -29,10 +29,7 @@ export const handleCommand = async function (message: Message) {
         }
         if (commandArg === "check") {
             if (args[0] === "accounts") {
-                console.log("there ")
                 responseArray.push(await command.get_all_accounts());
-            } else {
-                command.check_user(args[1]);
             }
         }
     } else if (args.length === 2) {
@@ -44,7 +41,9 @@ export const handleCommand = async function (message: Message) {
                 command.remove_account(args[1]);
             }
         }
-
+        if (commandArg === "check" && args[0] === "user") {
+            responseArray.push(await command.check_user(args[1].replace(/<|>|@|!|/g, "")));
+        }
         //!check
 
 

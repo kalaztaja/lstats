@@ -5,6 +5,7 @@ import { User } from "../entity/User";
 import { getSummonerByName, getSoloqueStatsById } from "../api/lol";
 import * as moment from 'moment'
 import { LOL_RANKS } from "../constants/lol_ranks";
+import { stat } from "node:fs";
 
 export const add_account = async function (summonerName: string, discordMessage: Message) {
     const checkAccount = await getConnection()
@@ -19,15 +20,15 @@ export const add_account = async function (summonerName: string, discordMessage:
         return "Player wasn't found or was already registered";
     }
 
-    const checkUser = await getConnection()
+    const user = await getConnection()
         .createQueryBuilder()
         .select("user")
         .from(User, "user")
         .where("user.discordId = :discordId", { discordId: discordMessage.author.id })
         .getOne();
-
-    if (checkUser !== undefined) {
-        await getConnection()
+    var newUser;
+    if (user === undefined) {
+        newUser = await getConnection()
             .createQueryBuilder()
             .insert()
             .into(User)
@@ -44,7 +45,10 @@ export const add_account = async function (summonerName: string, discordMessage:
     }
 
     const uRank = statsResponseData.tier + " " + statsResponseData.rank;
-    const uRank_from_challenger = LOL_RANKS.indexOf(uRank);
+    var uRank_from_challenger = LOL_RANKS.indexOf(uRank);
+    if (uRank_from_challenger === -1) {
+        uRank_from_challenger = LOL_RANKS.length + 1;
+    }
     const current_time = moment().valueOf().toString();
 
     const insertAccount = await getConnection()
@@ -52,7 +56,8 @@ export const add_account = async function (summonerName: string, discordMessage:
         .insert()
         .into(Account)
         .values({
-            summonerName: summonerName,
+            user: user !== undefined ? user : newUser,
+            summonerName: responseData.name,
             pid: responseData.id,
             soloq_lp: statsResponseData.leaguePoints,
             soloq_wins: statsResponseData.wins,
@@ -60,10 +65,20 @@ export const add_account = async function (summonerName: string, discordMessage:
             lastUpdated: current_time,
             soloq_rank_from_challenger: uRank_from_challenger,
             soloq_tier: uRank,
-
-
         })
         .execute();
     console.log("Add account " + insertAccount);
+
+    var updatedAccounts = [];
+    user !== undefined ? updatedAccounts = user.accounts : null;
+    updatedAccounts.push(insertAccount);
+    await getConnection()
+        .createQueryBuilder()
+        .update(User).
+        set({
+            accounts: updatedAccounts,
+        })
+        .where("user.discordId = :discordId", { discordId: discordMessage.author.id })
+        .execute();
     return "Account was added succesfully";
 }
