@@ -22,3 +22,6 @@ export * from './scout_accounts';
 
 //!help
 export * from './help_text';
+
+//!check blocklist
+export * from './check_blocklist';

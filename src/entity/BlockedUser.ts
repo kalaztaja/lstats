@@ -1,5 +1,4 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from "typeorm";
-import { User } from "./User";
 
 @Entity()
 export class BlockedUser {
@@ -7,8 +6,8 @@ export class BlockedUser {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @ManyToOne(() => User, user => user.blockedusers)
-    user: User;
+    @Column()
+    userId: string;
 
     @Column()
     summonerName: string;
@@ -22,6 +21,16 @@ export class BlockedUser {
     @Column()
     soloq_lp: number;
 
+    @Column()
+    soloq_wins: number;
 
+    @Column()
+    soloq_losses: number;
+
+    @Column()
+    soloq_rank_from_challenger: number;
+
+    @Column()
+    lastUpdated: string;
 
 }

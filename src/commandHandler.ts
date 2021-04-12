@@ -14,22 +14,32 @@ export const handleCommand = async function (message: Message) {
     const commandArg = args.shift().toLowerCase();
 
     var responseArray = [];
+
+
+    //!register summonerName
+    if (commandArg === "register") {
+        console.log(args);
+        responseArray.push(await command.add_account(args.join(" "), message));
+    }
     if (args.length === 1) {
-        //!register summonerName
-        if (commandArg === "register") {
-            responseArray.push(await command.add_account(args[0], message));
-        }
         //!block
         if (commandArg === "block") {
-            command.add_blocklist(args[0]);
+            responseArray.push(await command.add_blocklist(args[0], message.author.id));
         }
 
         if (commandArg === "get" && args[0] === "weekreport") {
             command.get_newest_weekreport();
         }
         if (commandArg === "check") {
+            //!check accounts
+
             if (args[0] === "accounts") {
                 responseArray.push(await command.get_all_accounts());
+            }
+            //!check blocklist
+
+            if (args[0] === "blocklist") {
+                responseArray.push(await command.check_blocklist());
             }
         }
     } else if (args.length === 2) {
@@ -38,13 +48,16 @@ export const handleCommand = async function (message: Message) {
             if (args[0] === "block") {
                 command.remove_blocklist(args[1]);
             } else if (args[0] === "account") {
-                command.remove_account(args[1]);
+                console.log("yea")
+                responseArray.push(await command.remove_account(args[1], message));
             }
         }
+
+        //!check <userId>
         if (commandArg === "check" && args[0] === "user") {
             responseArray.push(await command.check_user(args[1].replace(/<|>|@|!|/g, "")));
         }
-        //!check
+
 
 
     } else if (args.length === 0) {
@@ -55,10 +68,13 @@ export const handleCommand = async function (message: Message) {
         if (commandArg === "scout") {
             command.scout_accounts(args);
         }
+
+
     }
 
 
     if (responseArray !== undefined && responseArray.length !== 0) {
+        console.log(responseArray);
         message.channel.send(responseArray.join(""));
     }
 }

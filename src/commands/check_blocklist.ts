@@ -1,15 +1,7 @@
-import { getRepository } from "typeorm";
-import { Account } from "../entity/Account";
-import * as moment from 'moment'
+import { getBlocklist } from '../controller/blockedUser';
 
-
-export const get_all_accounts = async function () {
-    const accounts = await getRepository(Account)
-        .createQueryBuilder("account")
-        .getMany();
-    if (accounts.length === 0) {
-        return "No accounts registered";
-    }
+export const check_blocklist = async function () {
+    const accounts = await getBlocklist();
     console.log(accounts);
     accounts.sort((a, b) => (a.soloq_rank_from_challenger > b.soloq_rank_from_challenger) ? 1 : ((a.soloq_rank_from_challenger < b.soloq_rank_from_challenger) ? -1 : 0))
     var returnString = "```";

@@ -64,3 +64,17 @@ async function getRankedStatsById(id: string, soloq: boolean) {
     }
 
 }
+
+export const checkStatus = async function (id: string) {
+    try {
+        const response = await axios.get("https://euw1.api.riotgames.com/lol/spectator/v4/active-games/by-summoner/" + id + "?api_key=" +
+            lol_token);
+        if (response.status !== 404) {
+            return response;
+        } else {
+            return null;
+        }
+    } catch (error) {
+        return null;
+    }
+}

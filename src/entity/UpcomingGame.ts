@@ -1,5 +1,4 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany, ManyToOne, Timestamp } from "typeorm";
-import { Team } from "./Team";
 
 @Entity()
 export class UpcomingGame {
@@ -7,8 +6,8 @@ export class UpcomingGame {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @ManyToOne(() => Team, team => team.users)
-    team: Team;
+    @Column()
+    teamId: string;
 
     @Column()
     timestamp: string;

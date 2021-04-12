@@ -8,8 +8,8 @@ export class Account {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @ManyToOne(() => User, user => user.accounts)
-    user: User;
+    @Column()
+    userId: number;
 
     @OneToMany(() => WeeklyRecord, weeklyrecord => weeklyrecord.account)
     weeklyrecords: WeeklyRecord[];
@@ -25,10 +25,10 @@ export class Account {
     lastUpdated: string;
 
     @Column()
-    soloq_wins: string;
+    soloq_wins: number;
 
     @Column()
-    soloq_losses: string;
+    soloq_losses: number;
 
     @Column()
     soloq_lp: string;
