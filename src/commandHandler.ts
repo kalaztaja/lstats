@@ -29,8 +29,12 @@ export const handleCommand = async function (message: Message) {
         response !== null ? message.channel.send(response) : null;
     }
     if (commandArg === "q") {
-        const oneliner = args.join("").split("\n").join((","))
-        const response = await command.check_lobby(oneliner.split("joinedthelobby,"))
+        var nicknames = args.join(" ").split("joined the lobby")
+        nicknames = nicknames.join("").split("\n")
+        for (var i = 0; i < nicknames.length; i++) {
+            nicknames[i] = nicknames[i].trim()
+        }
+        const response = await command.check_lobby(nicknames)
 
         response !== null ? message.channel.send(response) : null;
 
@@ -82,6 +86,10 @@ export const handleCommand = async function (message: Message) {
         if (commandArg === "help") {
             command.help_text();
         }
+    } else {
+
+
+
     }
 
 
