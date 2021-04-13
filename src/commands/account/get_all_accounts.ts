@@ -1,5 +1,5 @@
-import { getAccountsByRank } from "../messages/index";
-import { getAllAccounts } from "../controller/account";
+import { getAccountsByRank } from "../../messages/index";
+import { getAllAccounts } from "../../controller/account";
 import { MessageEmbed } from "discord.js";
 
 

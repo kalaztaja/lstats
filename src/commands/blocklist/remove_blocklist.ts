@@ -1,4 +1,4 @@
-import { removeBlock, getBlockedUser } from "../controller/blockedUser";
+import { removeBlock, getBlockedUser } from "../../controller/blockedUser";
 
 export const remove_blocklist = async function (summonerName: string) {
     console.log("remove blocklist");

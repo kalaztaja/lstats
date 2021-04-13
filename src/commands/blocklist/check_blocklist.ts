@@ -1,4 +1,4 @@
-import { getBlocklist } from '../controller/blockedUser';
+import { getBlocklist } from '../../controller/blockedUser';
 
 export const check_blocklist = async function () {
     const accounts = await getBlocklist();

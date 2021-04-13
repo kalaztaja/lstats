@@ -1,8 +1,8 @@
-import { getUserById } from "../controller/user";
-import { getSummonerByName, getSoloqueStatsById } from "../api/lol";
-import { addToBlockList } from "../controller/blockedUser";
+import { getUserById } from "../../controller/user";
+import { getSummonerByName, getSoloqueStatsById } from "../../api/lol";
+import { addToBlockList } from "../../controller/blockedUser";
 import * as moment from 'moment'
-import { LOL_RANKS } from "../constants/lol_ranks";
+import { LOL_RANKS } from "../../constants/lol_ranks";
 
 
 

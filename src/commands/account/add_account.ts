@@ -1,9 +1,9 @@
 import { Message } from "discord.js";
-import { getSummonerByName, getSoloqueStatsById } from "../api/lol";
+import { getSummonerByName, getSoloqueStatsById } from "../../api/lol";
 import * as moment from 'moment'
-import { LOL_RANKS } from "../constants/lol_ranks";
-import { getAccountWithName, createAccount } from "../controller/account";
-import { getUserById, createUser } from "../controller/user";
+import { LOL_RANKS } from "../../constants/lol_ranks";
+import { getAccountWithName, createAccount } from "../../controller/account";
+import { getUserById, createUser } from "../../controller/user";
 
 export const add_account = async function (summonerName: string, discordMessage: Message) {
 

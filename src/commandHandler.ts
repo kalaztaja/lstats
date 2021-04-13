@@ -80,14 +80,28 @@ export const handleCommand = async function (message: Message) {
 
         }
 
+        if (commandArg === "team") {
+            if (args[0] === "delete") {
+                command.createTeam(args[1])
+            } else if (args[0] === "create") {
+                command.deleteTeam(args[1], message.author.id)
+            }
+        }
+
 
 
     } else if (args.length === 0) {
         if (commandArg === "help") {
             command.help_text();
         }
-    } else {
-
+    } else if (args.length === 3) {
+        if (commandArg === "team") {
+            if (args[1] === "add") {
+                command.addUserToTeam(args[0], args[2].replace(/<|>|@|!|/g, ""));
+            } else if (args[1] === "remove") {
+                command.removeUserFromTeam(args[0], args[2].replace(/<|>|@|!|/g, ""))
+            }
+        }
 
 
     }
