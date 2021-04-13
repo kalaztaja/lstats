@@ -5,12 +5,17 @@ const lol_token = process.env.LOL_TOKEN;
 
 export const getSummonerByName = async function (summonerName: string) {
     try {
+        summonerName = encodeURI(summonerName);
+        /*summonerName = summonerName.split(" ").join("%20")
+        summonerName = summonerName.split("ä").join("%C3%A4")*/
         const response = await axios.get(
             "https://euw1.api.riotgames.com/lol/summoner/v4/summoners/by-name/" +
             summonerName +
             "?api_key=" +
             lol_token
         );
+        ///tää%20on%20hyvä%20peli
+        //t%C3%A4%C3%A4%20on%20hyv%C3%A4%20peli
         return response.data;
     } catch (error) {
         console.log(error);
@@ -35,16 +40,13 @@ async function getRankedStatsById(id: string, soloq: boolean) {
             "?api_key=" +
             lol_token
         );
-        console.log("https://euw1.api.riotgames.com/lol/league/v4/entries/by-summoner/" +
-            id +
-            "?api_key=" +
-            lol_token);
         var rankedStats = {
             leaguePoints: "",
             wins: "",
             losses: "",
             tier: "",
             rank: "",
+            summonerName: "",
         };
         for (var i = 0; i < detailResponse.data.length; i++) {
             var testValues = detailResponse.data[i];
@@ -54,12 +56,12 @@ async function getRankedStatsById(id: string, soloq: boolean) {
                 rankedStats.losses = testValues.losses;
                 rankedStats.tier = testValues.tier;
                 rankedStats.rank = testValues.rank;
+                rankedStats.summonerName = testValues.summonerName;
             }
         }
         const returnValue = Object.keys(rankedStats).length !== 0 ? rankedStats : null;
         return returnValue;
     } catch (error) {
-        console.log(error);
         return null;
     }
 

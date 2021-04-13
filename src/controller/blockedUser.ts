@@ -18,7 +18,7 @@ export const removeBlock = async function (blockId: string) {
         .from(BlockedUser)
         .where("pid = :pid", { pid: blockId })
         .execute();
-
+    return result;
 }
 
 export const getBlockedUser = async function (summonerName: string) {

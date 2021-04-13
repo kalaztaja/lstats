@@ -18,8 +18,18 @@ export const handleCommand = async function (message: Message) {
 
     //!register summonerName
     if (commandArg === "register") {
-        console.log(args);
         responseArray.push(await command.add_account(args.join(" "), message));
+    }
+    if (commandArg === "scout" || commandArg === "s") {
+        console.log(args);
+        console.log(args.join(" "));
+        var nicknames = args.join(" ").split(",");
+        for (var i = 0; i < nicknames.length; i++) {
+            nicknames[i] = nicknames[i].trim()
+        }
+        console.log("nicknames " + nicknames);
+        const response = await command.scout_accounts(nicknames);
+        response !== null ? message.channel.send(response) : null;
     }
     if (args.length === 1) {
         //!block
@@ -65,9 +75,7 @@ export const handleCommand = async function (message: Message) {
             command.help_text();
         }
     } else {
-        if (commandArg === "scout") {
-            command.scout_accounts(args);
-        }
+
 
 
     }
