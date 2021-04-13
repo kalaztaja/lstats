@@ -25,3 +25,6 @@ export * from './help_text';
 
 //!check blocklist
 export * from './check_blocklist';
+
+//!q [summonerNames]
+export * from './check_lobby';

@@ -6,19 +6,14 @@ const lol_token = process.env.LOL_TOKEN;
 export const getSummonerByName = async function (summonerName: string) {
     try {
         summonerName = encodeURI(summonerName);
-        /*summonerName = summonerName.split(" ").join("%20")
-        summonerName = summonerName.split("ä").join("%C3%A4")*/
         const response = await axios.get(
             "https://euw1.api.riotgames.com/lol/summoner/v4/summoners/by-name/" +
             summonerName +
             "?api_key=" +
             lol_token
         );
-        ///tää%20on%20hyvä%20peli
-        //t%C3%A4%C3%A4%20on%20hyv%C3%A4%20peli
         return response.data;
     } catch (error) {
-        console.log(error);
         return null;
     }
 

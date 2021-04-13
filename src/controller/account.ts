@@ -1,4 +1,4 @@
-import { getConnection } from "typeorm";
+import { getConnection, getRepository } from "typeorm";
 import { Account } from "../entity/Account";
 
 export const getAccountWithName = async function (summonerName: string) {
@@ -35,4 +35,10 @@ export const removeAccountById = async function (accountId: number) {
         .from(Account)
         .where("id = :id", { id: accountId })
         .execute();
+}
+
+export const getAllAccounts = async function () {
+    return await getRepository(Account)
+        .createQueryBuilder("account")
+        .getMany();
 }

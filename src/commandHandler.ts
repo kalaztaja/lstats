@@ -21,15 +21,19 @@ export const handleCommand = async function (message: Message) {
         responseArray.push(await command.add_account(args.join(" "), message));
     }
     if (commandArg === "scout" || commandArg === "s") {
-        console.log(args);
-        console.log(args.join(" "));
         var nicknames = args.join(" ").split(",");
         for (var i = 0; i < nicknames.length; i++) {
             nicknames[i] = nicknames[i].trim()
         }
-        console.log("nicknames " + nicknames);
         const response = await command.scout_accounts(nicknames);
         response !== null ? message.channel.send(response) : null;
+    }
+    if (commandArg === "q") {
+        const oneliner = args.join("").split("\n").join((","))
+        const response = await command.check_lobby(oneliner.split("joinedthelobby,"))
+
+        response !== null ? message.channel.send(response) : null;
+
     }
     if (args.length === 1) {
         //!block
@@ -44,7 +48,9 @@ export const handleCommand = async function (message: Message) {
             //!check accounts
 
             if (args[0] === "accounts") {
-                responseArray.push(await command.get_all_accounts());
+                const response = await command.get_all_accounts()
+
+                response !== null ? message.channel.send(response) : null;
             }
             //!check blocklist
 
@@ -65,7 +71,9 @@ export const handleCommand = async function (message: Message) {
 
         //!check <userId>
         if (commandArg === "check" && args[0] === "user") {
-            responseArray.push(await command.check_user(args[1].replace(/<|>|@|!|/g, "")));
+            const response = await command.check_user(args[1].replace(/<|>|@|!|/g, ""));
+            response !== null ? message.channel.send(response) : null;
+
         }
 
 
@@ -74,10 +82,6 @@ export const handleCommand = async function (message: Message) {
         if (commandArg === "help") {
             command.help_text();
         }
-    } else {
-
-
-
     }
 
 

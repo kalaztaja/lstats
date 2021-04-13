@@ -1,43 +1,20 @@
-import { getRepository } from "typeorm";
-import { Account } from "../entity/Account";
-import * as moment from 'moment'
+import { getAccountsByRank } from "../messages/index";
+import { getAllAccounts } from "../controller/account";
+import { MessageEmbed } from "discord.js";
 
 
 export const get_all_accounts = async function () {
-    const accounts = await getRepository(Account)
-        .createQueryBuilder("account")
-        .getMany();
+    const accounts = await getAllAccounts();
     if (accounts.length === 0) {
         return "No accounts registered";
     }
-    console.log(accounts);
-    accounts.sort((a, b) => (a.soloq_rank_from_challenger > b.soloq_rank_from_challenger) ? 1 : ((a.soloq_rank_from_challenger < b.soloq_rank_from_challenger) ? -1 : 0))
-    var returnString = "```";
-    var placementNumber = 1;
-    for (var i = 0; i < accounts.length; i++) {
-        const winprcnt = Math.round(
-            (accounts[i].soloq_wins /
-                (accounts[i].soloq_wins + accounts[i].soloq_losses) +
-                Number.EPSILON) * 100
-        ) / 100;
-        returnString = returnString +
-            "\n " +
-            placementNumber +
-            ". Player name: " +
-            accounts[i].summonerName +
-            " - " +
-            accounts[i].soloq_tier +
-            " " +
-            accounts[i].soloq_lp +
-            "LP (" +
-            accounts[i].soloq_wins.toString() +
-            "W/" +
-            accounts[i].soloq_losses.toString() +
-            "L " +
-            winprcnt +
-            "%)";
-        placementNumber++;
-    }
-    returnString = returnString + " ```"
-    return returnString;
+    const fields = await getAccountsByRank(accounts);
+    const embedMessage = new MessageEmbed()
+        .setColor('#3f436e')
+        .setTitle('Leaderboard')
+        .setDescription("")
+        .addFields(fields)
+        .setTimestamp()
+        .setFooter("Bot by Kala#1322", "https://i.ibb.co/NFqD4pK/discord.png")
+    return embedMessage;
 }
